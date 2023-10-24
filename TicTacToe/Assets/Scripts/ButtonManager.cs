@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class ButtonManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+   
+   [SerializeField] private  GameObject X;
+    private Button button;
+    private void Start()
     {
-        
+        button = GetComponent<Button>();
     }
-
-    // Update is called once per frame
-    void Update()
+    public void Selected()
     {
-        
+       var inst= Instantiate(X, button.transform.position, transform.rotation);
+        inst.transform.SetParent(button.transform);
+        button.interactable = false;
+        Debug.Log("geyf");
     }
 }
