@@ -12,7 +12,12 @@ public class ButtonManager : MonoBehaviour
     {
         button[whichButton].image.sprite = X;
         button[whichButton].interactable = false;
-        int index = int.Parse(button[whichButton].name);
-        gameObject.GetComponent<GameManager>().FullButton[whichButton]="X";
+        
+        gameObject.GetComponent<GameManager>().FullButton[whichButton] ="X";
+
+        if (gameObject.GetComponent<GameManager>().verification("X")) Debug.Log("You Won!");
+        else gameObject.GetComponent<GameManager>().AI();
+
+
     }
 }
