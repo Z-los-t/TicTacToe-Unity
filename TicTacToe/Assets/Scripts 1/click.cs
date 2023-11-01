@@ -44,7 +44,6 @@ public class click : MonoBehaviour
             render.enabled = true;
             if (player.circles)
             {
-                turn.AI();
                 int choice = Random.Range(0,turn.choice.Count);
                 GameObject choicebutton = GameObject.Find(choice.ToString()) ;
 

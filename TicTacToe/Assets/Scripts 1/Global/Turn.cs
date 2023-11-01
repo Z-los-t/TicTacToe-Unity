@@ -13,7 +13,7 @@ public class Turn : MonoBehaviour
     private int lastAmountWon;
     public bool opponentConnected { get; private set; }
     private bool firstTurn;
-    [SerializeField] private GameObject[] buttons;
+    [SerializeField] private GameObject[] buttons; 
     public List<int> choice = new List<int>();
     private void Awake()
     {
@@ -46,6 +46,13 @@ public class Turn : MonoBehaviour
                 player.circles = !player.circles;
                 player.isPlayer1 = !player.isPlayer1;
             }
+            if (mode == "AI")
+            {
+                Player player = SceneManager.Instance.player;
+                player.circles = !player.circles;
+                player.isPlayer1 = !player.isPlayer1;
+                if (player.circles) AI();
+            }
 
             bool nextBoardFull = adjustButtons(btn);
             adjustAreas(btn, nextBoardFull);
@@ -53,17 +60,20 @@ public class Turn : MonoBehaviour
     }
     public void AI()
     {
-        buttons = GameObject.FindGameObjectsWithTag("Button");
-        foreach(GameObject button in buttons) {
+       
+
+
+        choice.Clear();
             for (int i = 0; i < buttons.Length; i++)
             {
-                if (button.GetComponent<BoxCollider2D>().enabled == true)
+                if (buttons[i].GetComponent<BoxCollider2D>().enabled == true)
                 
                     choice.Add(i);
                 
                 
-            }
+            
         }
+        
 
     }
     private bool adjustButtons(buttonProperties btn)
