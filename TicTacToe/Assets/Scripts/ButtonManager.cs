@@ -6,10 +6,11 @@ public class ButtonManager : MonoBehaviour
 {
    
    [SerializeField] private  Sprite X;
-   [SerializeField] private Button[] button;
+   public Button[] button;
    
     public void Selected(int whichButton)
     {
+        
         button[whichButton].image.sprite = X;
         button[whichButton].interactable = false;
         
@@ -20,4 +21,6 @@ public class ButtonManager : MonoBehaviour
 
 
     }
+
+
 }

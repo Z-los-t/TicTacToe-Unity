@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public string[] FullButton;
     [SerializeField] private List<int> choice = new List<int>();
     [SerializeField] private Sprite O;
+   
     public void AI()
     {
         AICHOOSE();
@@ -57,4 +58,6 @@ public class GameManager : MonoBehaviour
 
         else return false;
     }
+
+   
 }
