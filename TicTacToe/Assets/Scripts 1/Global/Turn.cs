@@ -6,6 +6,7 @@ public class Turn : MonoBehaviour
 {
     public bool player1Turn { get; private set; }
     public bool gameOverBool { get; private set; }
+    public Sprite circle;
     //twoPlayerLocal
     //AI
     //Online
@@ -13,6 +14,7 @@ public class Turn : MonoBehaviour
     private int lastAmountWon;
     public bool opponentConnected { get; private set; }
     private bool firstTurn;
+    
     [SerializeField] private GameObject[] buttons; 
     public List<int> choice = new List<int>();
     private void Awake()
@@ -40,40 +42,63 @@ public class Turn : MonoBehaviour
         {
             player1Turn = !player1Turn;
 
-            if (mode == "twoPlayerLocal")
+            if (mode == "twoPlayerLocal"|| mode == "AI")
             {
                 Player player = SceneManager.Instance.player;
                 player.circles = !player.circles;
                 player.isPlayer1 = !player.isPlayer1;
             }
-            if (mode == "AI")
-            {
-                Player player = SceneManager.Instance.player;
-                player.circles = !player.circles;
-                player.isPlayer1 = !player.isPlayer1;
-                if (player.circles) AI();
-            }
+         
+           
 
             bool nextBoardFull = adjustButtons(btn);
             adjustAreas(btn, nextBoardFull);
         }
     }
-    public void AI()
+    public void AIChoosing()
     {
-       
+
 
 
         choice.Clear();
-            for (int i = 0; i < buttons.Length; i++)
-            {
-                if (buttons[i].GetComponent<BoxCollider2D>().enabled == true)
-                
-                    choice.Add(i);
-                
-                
-            
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (buttons[i].GetComponent<BoxCollider2D>().enabled == true)
+
+                choice.Add(i);
+
+
+
         }
-        
+
+
+     
+    }
+
+    public void AI( )
+    {
+        AIChoosing();
+
+        int choiceNumber = Random.Range(0, choice.Count-1);
+        foreach (GameObject button in buttons)
+        {
+            click Click = button.GetComponent<click>();
+            if ((choice[choiceNumber].ToString() == button.name) && Click.isSet() == false)
+            {
+
+                SpriteRenderer choicebutton = GameObject.Find(choice[choiceNumber].ToString()).GetComponent<SpriteRenderer>();
+                choicebutton.enabled = true;
+                choicebutton.sprite = circle;
+                endTurn(choicebutton.GetComponentInParent<buttonProperties>());
+
+            }
+            else if ((choice[choiceNumber].ToString() == button.name) && Click.isSet() == true) {
+
+                AI();
+            
+            }
+
+        }
 
     }
     private bool adjustButtons(buttonProperties btn)
