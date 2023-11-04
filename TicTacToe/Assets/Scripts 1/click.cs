@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
-using UnityEngine.UI;
+
 public class click : MonoBehaviour
 {
     public Sprite circle;
@@ -12,11 +11,11 @@ public class click : MonoBehaviour
 
     //whether or not this square was used yet
 
-    private bool set;
+    public bool set ;
 
     private void Awake()
     {
-        SceneManager man = SceneManager.Instance;
+        SceneManagerr man = SceneManagerr.Instance;
         player = man.player;
         turn = man.turn;
         set = false;
@@ -25,7 +24,7 @@ public class click : MonoBehaviour
     private void OnMouseDown()
     {
         //check if turn
-        if ((turn.player1Turn && player.isPlayer1 || (!turn.player1Turn && !player.isPlayer1))  && !turn.gameOverBool  && set == false && SceneManager.Instance.turn.mode== "twoPlayerLocal")
+        if ((turn.player1Turn && player.isPlayer1 || (!turn.player1Turn && !player.isPlayer1))  && !turn.gameOverBool  && set == false && SceneManagerr.Instance.turn.mode== "twoPlayerLocal")
         {
             set = true;
             render.enabled = true;
@@ -39,7 +38,7 @@ public class click : MonoBehaviour
             turn.endTurn(render.GetComponentInParent<buttonProperties>());
             
         }
-        if ((turn.player1Turn && player.isPlayer1) && !turn.gameOverBool && set == false && SceneManager.Instance.turn.mode == "AI"&&render.enabled==false)
+        if ((turn.player1Turn && player.isPlayer1) && !turn.gameOverBool && set == false && SceneManagerr.Instance.turn.mode == "AI"&&render.enabled==false)
         {
 
             set = true;
@@ -49,8 +48,9 @@ public class click : MonoBehaviour
             this.enabled = false;
             turn.endTurn(render.GetComponentInParent<buttonProperties>());
             turn.AI();
-            
            
+
+
 
         }
 

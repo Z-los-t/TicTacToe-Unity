@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class StartMenu : MonoBehaviour
 {
@@ -17,7 +16,7 @@ public class StartMenu : MonoBehaviour
 
     private void aiSetup()
     {
-        SceneManager.Instance.turn.mode = "AI";
+        SceneManagerr.Instance.turn.mode = "AI";
     }
 
     public void startLocal()
@@ -27,7 +26,7 @@ public class StartMenu : MonoBehaviour
 
     private void localSetup()
     {
-        SceneManager.Instance.turn.mode = "twoPlayerLocal";
+        SceneManagerr.Instance.turn.mode = "twoPlayerLocal";
     }
     
 

@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 public class Turn : MonoBehaviour
 {
     public bool player1Turn { get; private set; }
@@ -9,7 +10,7 @@ public class Turn : MonoBehaviour
     public Sprite circle;
     //twoPlayerLocal
     //AI
-    //Online
+
     public string mode;
     private int lastAmountWon;
     public bool opponentConnected { get; private set; }
@@ -25,6 +26,7 @@ public class Turn : MonoBehaviour
         opponentConnected = false;
         //changed for debugging firstTurn = true;
         firstTurn = false;
+        buttons= GameObject.FindGameObjectsWithTag("Button");
     }
 
     public void endTurn(buttonProperties btn)
@@ -34,7 +36,10 @@ public class Turn : MonoBehaviour
             firstTurn = false;
            
         }
-     
+        if (noWin())
+        {
+            SceneManager.LoadScene(0);
+        }
         checkSmallWinner(btn);
         checkBigWinner(btn);
 
@@ -44,7 +49,7 @@ public class Turn : MonoBehaviour
 
             if (mode == "twoPlayerLocal"|| mode == "AI")
             {
-                Player player = SceneManager.Instance.player;
+                Player player = SceneManagerr.Instance.player;
                 player.circles = !player.circles;
                 player.isPlayer1 = !player.isPlayer1;
             }
@@ -57,7 +62,7 @@ public class Turn : MonoBehaviour
     }
     public void AIChoosing()
     {
-
+        
 
 
         choice.Clear();
@@ -79,18 +84,19 @@ public class Turn : MonoBehaviour
     {
         AIChoosing();
 
-        int choiceNumber = Random.Range(0, choice.Count-1);
+        int choiceNumber = Random.Range(0, choice.Count);
         foreach (GameObject button in buttons)
         {
             click Click = button.GetComponent<click>();
             if ((choice[choiceNumber].ToString() == button.name) && Click.isSet() == false)
             {
-
+                
                 SpriteRenderer choicebutton = GameObject.Find(choice[choiceNumber].ToString()).GetComponent<SpriteRenderer>();
                 choicebutton.enabled = true;
                 choicebutton.sprite = circle;
+                Click.set = true;
                 endTurn(choicebutton.GetComponentInParent<buttonProperties>());
-
+                
             }
             else if ((choice[choiceNumber].ToString() == button.name) && Click.isSet() == true) {
 
@@ -101,19 +107,32 @@ public class Turn : MonoBehaviour
         }
 
     }
+   
+    private bool noWin()
+    { int check = 0;
+        foreach (GameObject Button in buttons) {
+            if (Button.GetComponent<click>().set == true)
+            {
+
+                check++;
+            }
+            
+        }
+        if (check == 81)
+            return true;
+        else return false;
+    }
     private bool adjustButtons(buttonProperties btn)
     {
         //check if board sent to is full
-        string bigBoardCheck = btn.locationSmallBoard;
-        GameObject[] buttons = GameObject.FindGameObjectsWithTag("Button");
-        int used = 0;
+        string bigBoardCheck = btn.locationSmallBoard;    
         bool nextBoardFull = false;
-
+        int used = 0;
         foreach (GameObject button in buttons)
         {
             if (button.GetComponent<click>().isSet() && button.GetComponent<buttonProperties>().locationBigBoard == bigBoardCheck) used++;
         }
-
+        
         if (used == 9) nextBoardFull = true;
         
         foreach(GameObject button in buttons)
@@ -155,7 +174,7 @@ public class Turn : MonoBehaviour
         if (!btn.transform.parent.GetComponent<areaProperties>().areaWon)
         {
             string symbol = "x";
-            if (SceneManager.Instance.player.circles) symbol = "o";
+            if (SceneManagerr.Instance.player.circles) symbol = "o";
             int buttons = btn.transform.parent.childCount;
             //check rows for winner
             for (int i = 0; i < 9; i = i + 3)
@@ -199,7 +218,7 @@ public class Turn : MonoBehaviour
             lastAmountWon = areaProperties.amountWon;
 
             string symbol = "x";
-            if (SceneManager.Instance.player.circles) symbol = "o";
+            if (SceneManagerr.Instance.player.circles) symbol = "o";
             GameObject buttons = GameObject.Find("Buttons");
             //check rows for winner
             for(int i = 0; i < 9; i = i + 3)
