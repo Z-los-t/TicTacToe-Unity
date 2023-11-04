@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class click : MonoBehaviour
 {
-    public Sprite circle;
-    public Sprite cross;
-    public SpriteRenderer render;
+    [SerializeField] private Sprite circle;
+    [SerializeField] private Sprite cross;
+    [SerializeField] private SpriteRenderer render;
     private Player player;
     private Turn turn;
 
@@ -19,6 +19,7 @@ public class click : MonoBehaviour
         player = man.player;
         turn = man.turn;
         set = false;
+        if (turn.mode=="AI")
         turn.AIChoosing();
     }
     private void OnMouseDown()

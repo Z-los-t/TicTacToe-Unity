@@ -6,9 +6,7 @@ using UnityEngine;
 
 public class StartMenu : MonoBehaviour
 {
-    //0: Main
-    //1: onlineSelection
-    public GameObject[] menus;
+
     public void startAI()
     {
         StartCoroutine(LoadScene(aiSetup));

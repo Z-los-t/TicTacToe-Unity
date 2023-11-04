@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,26 +7,26 @@ public class Turn : MonoBehaviour
 {
     public bool player1Turn { get; private set; }
     public bool gameOverBool { get; private set; }
-    public Sprite circle;
+    [SerializeField] private  Sprite circle;
     //twoPlayerLocal
     //AI
-
+    private GameObject[] areas;
     public string mode;
     private int lastAmountWon;
-    public bool opponentConnected { get; private set; }
+    
     private bool firstTurn;
     
     [SerializeField] private GameObject[] buttons; 
-    public List<int> choice = new List<int>();
+    private List<int> choice = new List<int>();
     private void Awake()
     {
         player1Turn = true;
         lastAmountWon = 0;
         gameOverBool = false;
-        opponentConnected = false;
         //changed for debugging firstTurn = true;
         firstTurn = false;
         buttons= GameObject.FindGameObjectsWithTag("Button");
+        areas = GameObject.FindGameObjectsWithTag("Area"); 
     }
 
     public void endTurn(buttonProperties btn)
@@ -152,7 +152,6 @@ public class Turn : MonoBehaviour
     
     private void adjustAreas(buttonProperties btn, bool nextBoardFull)
     {
-        GameObject[] areas = GameObject.FindGameObjectsWithTag("Area");
         foreach(GameObject area in areas)
         {
             if(area.transform.parent.name == btn.locationSmallBoard || nextBoardFull)
@@ -260,7 +259,7 @@ public class Turn : MonoBehaviour
     {
         gameOverBool = true;
 
-        GameObject[] areas = GameObject.FindGameObjectsWithTag("Area");
+        
         foreach (GameObject area in areas)
             area.GetComponent<SpriteRenderer>().enabled = false;
 
