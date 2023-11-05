@@ -172,9 +172,8 @@ public class Turn : MonoBehaviour
         //no use checking for a winner if the mini board is already won
         if (!btn.transform.parent.GetComponent<areaProperties>().areaWon)
         {
-            string symbol = "x";
-            if (SceneManagerr.Instance.player.circles) symbol = "o";
-            int buttons = btn.transform.parent.childCount;
+            string symbol = "Xbasic";
+            if (SceneManagerr.Instance.player.circles) symbol = "Obasic";
             //check rows for winner
             for (int i = 0; i < 9; i = i + 3)
             {
@@ -216,8 +215,8 @@ public class Turn : MonoBehaviour
         {
             lastAmountWon = areaProperties.amountWon;
 
-            string symbol = "x";
-            if (SceneManagerr.Instance.player.circles) symbol = "o";
+            string symbol = "Xbasic";
+            if (SceneManagerr.Instance.player.circles) symbol = "Obasic";
             GameObject buttons = GameObject.Find("Buttons");
             //check rows for winner
             for(int i = 0; i < 9; i = i + 3)
