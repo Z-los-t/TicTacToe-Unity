@@ -21,7 +21,7 @@ public class areaProperties : MonoBehaviour
             amountWon++;
             areaWon = true;
             winner = symbol;
-
+            
             this.transform.Find("winner symbol").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(symbol);
             this.transform.Find("winner symbol").GetComponent<SpriteRenderer>().enabled = true;
         }

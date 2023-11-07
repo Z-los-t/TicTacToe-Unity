@@ -39,9 +39,9 @@ public class click : MonoBehaviour
             turn.endTurn(render.GetComponentInParent<buttonProperties>());
             
         }
-        if ((turn.player1Turn && player.isPlayer1) && !turn.gameOverBool && set == false && SceneManagerr.Instance.turn.mode == "AI"&&render.enabled==false)
+        if ((turn.player1Turn && player.isPlayer1) && !turn.gameOverBool && set == false && SceneManagerr.Instance.turn.mode == "AI")
         {
-
+            
             set = true;
             render.enabled = true;
           
@@ -49,7 +49,6 @@ public class click : MonoBehaviour
             this.enabled = false;
             turn.endTurn(render.GetComponentInParent<buttonProperties>());
             turn.AI();
-           
 
 
 

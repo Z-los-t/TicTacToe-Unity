@@ -14,28 +14,25 @@ public class Turn : MonoBehaviour
     public string mode;
     private int lastAmountWon;
     
-    private bool firstTurn;
     
-    [SerializeField] private GameObject[] buttons; 
+    private GameObject[] buttons; 
     private List<int> choice = new List<int>();
+
     private void Awake()
     {
         player1Turn = true;
         lastAmountWon = 0;
         gameOverBool = false;
         //changed for debugging firstTurn = true;
-        firstTurn = false;
+      
         buttons= GameObject.FindGameObjectsWithTag("Button");
         areas = GameObject.FindGameObjectsWithTag("Area"); 
+
     }
 
     public void endTurn(buttonProperties btn)
     {
-        if(firstTurn)
-        {
-            firstTurn = false;
-           
-        }
+       
         if (noWin())
         {
             SceneManager.LoadScene(0);
@@ -60,6 +57,7 @@ public class Turn : MonoBehaviour
             adjustAreas(btn, nextBoardFull);
         }
     }
+  
     public void AIChoosing()
     {
         
@@ -72,7 +70,7 @@ public class Turn : MonoBehaviour
 
                 choice.Add(i);
 
-
+            
 
         }
 
@@ -83,31 +81,39 @@ public class Turn : MonoBehaviour
     public void AI( )
     {
         AIChoosing();
-
         int choiceNumber = Random.Range(0, choice.Count);
+        SpriteRenderer choicebutton;
+        
+
+        choicebutton = GameObject.Find(choice[choiceNumber].ToString()).GetComponent<SpriteRenderer>();
+       
         foreach (GameObject button in buttons)
         {
             click Click = button.GetComponent<click>();
-            if ((choice[choiceNumber].ToString() == button.name) && Click.isSet() == false)
+                if ((choice[choiceNumber].ToString() == button.name) && Click.isSet() == false)
             {
-                
-                SpriteRenderer choicebutton = GameObject.Find(choice[choiceNumber].ToString()).GetComponent<SpriteRenderer>();
+                 
+    
+
                 choicebutton.enabled = true;
                 choicebutton.sprite = circle;
                 Click.set = true;
+
+
+
                 endTurn(choicebutton.GetComponentInParent<buttonProperties>());
-                
             }
             else if ((choice[choiceNumber].ToString() == button.name) && Click.isSet() == true) {
 
                 AI();
             
             }
+            
 
         }
 
     }
-   
+
     private bool noWin()
     { int check = 0;
         foreach (GameObject Button in buttons) {
@@ -122,26 +128,28 @@ public class Turn : MonoBehaviour
             return true;
         else return false;
     }
+
     private bool adjustButtons(buttonProperties btn)
     {
         //check if board sent to is full
-        string bigBoardCheck = btn.locationSmallBoard;    
+        string bigBoardCheck = btn.locationSmallBoard;
         bool nextBoardFull = false;
         int used = 0;
         foreach (GameObject button in buttons)
         {
             if (button.GetComponent<click>().isSet() && button.GetComponent<buttonProperties>().locationBigBoard == bigBoardCheck) used++;
         }
-        
-        if (used == 9) nextBoardFull = true;
-        
-        foreach(GameObject button in buttons)
+
+        if (used == 9 ) nextBoardFull = true;
+
+        foreach (GameObject button in buttons)
         {
             buttonProperties prop = button.GetComponent<buttonProperties>();
-            if(prop.locationBigBoard == btn.locationSmallBoard || nextBoardFull)
+            if (prop.locationBigBoard == btn.locationSmallBoard || nextBoardFull)
             {
                 button.GetComponent<BoxCollider2D>().enabled = true;
-            } else
+            }
+            else
             {
                 button.GetComponent<BoxCollider2D>().enabled = false;
             }
@@ -149,12 +157,12 @@ public class Turn : MonoBehaviour
 
         return nextBoardFull;
     }
-    
+
     private void adjustAreas(buttonProperties btn, bool nextBoardFull)
     {
         foreach(GameObject area in areas)
         {
-            if(area.transform.parent.name == btn.locationSmallBoard || nextBoardFull)
+            if(area.transform.parent.name == btn.locationSmallBoard || nextBoardFull )
             {
                 area.GetComponent<SpriteRenderer>().enabled = false;
                 
@@ -182,6 +190,7 @@ public class Turn : MonoBehaviour
                     btn.transform.parent.GetChild(i + 2).GetComponent<SpriteRenderer>().sprite.name == symbol)
                 {
                     btn.transform.parent.GetComponent<areaProperties>().setWinner(symbol);
+
                 } 
             }
             //check columns for winner
@@ -265,5 +274,7 @@ public class Turn : MonoBehaviour
         SpriteRenderer winnerIcon = GameObject.Find("Winner Icon").GetComponent<SpriteRenderer>();
         winnerIcon.sprite = Resources.Load<Sprite>(symbol);
         winnerIcon.enabled = true;
+        Money money =gameObject.GetComponent<Money>();
+        money.GetMoney();
     }
 }
