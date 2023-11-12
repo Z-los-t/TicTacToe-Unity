@@ -1,51 +1,31 @@
-﻿using System;
-using System.Collections;
-
+﻿
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 
 public class StartMenu : MonoBehaviour
 {
-
+    public static string mode;
     public void startAI()
     {
-        StartCoroutine(LoadScene(aiSetup));
+        mode = "AI";
+
+        SceneManager.LoadScene(2);
     }
 
-    private void aiSetup()
-    {
-        SceneManagerr.Instance.turn.mode = "AI";
-    }
-
+  
     public void startLocal()
     {
-       StartCoroutine(LoadScene(localSetup));
+        mode= "twoPlayerLocal";
+        SceneManager.LoadScene(2);
+
     }
 
-    private void localSetup()
-    {
-        SceneManagerr.Instance.turn.mode = "twoPlayerLocal";
-    }
+ 
     
 
    
 
 
-    private IEnumerator LoadScene(Action cb, Action<string> cbs = null, string ip = "")
-    {
-        // Start loading the scene
-        AsyncOperation asyncLoadLevel = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("main", UnityEngine.SceneManagement.LoadSceneMode.Additive);
-        
-        // Wait until the level finish loading
-        while (!asyncLoadLevel.isDone)
-            yield return null;
-        
-        // Wait a frame so every Awake and Start method is called
-        yield return new WaitForEndOfFrame();
-        if (ip.Length > 0 && cbs != null)
-            cbs(ip);
-        else if(cb != null)
-            cb();
-        UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(UnityEngine.SceneManagement.SceneManager.GetSceneByName("Menu").buildIndex);
-    }
+   
 }

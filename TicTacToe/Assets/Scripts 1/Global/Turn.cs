@@ -7,25 +7,29 @@ public class Turn : MonoBehaviour
 {
     public bool player1Turn { get; private set; }
     public bool gameOverBool { get; private set; }
-    [SerializeField] private  Sprite circle;
+     public  Sprite circle;
     //twoPlayerLocal
     //AI
     private GameObject[] areas;
-    public string mode;
+    public  string mode;
     private int lastAmountWon;
-    
-    
+    public static string oSprite ="Oneon" ;
+
     private GameObject[] buttons; 
     private List<int> choice = new List<int>();
-
+    [SerializeField] private GameObject WinPanel;
+    [SerializeField] private GameObject LosePanel;
     private void Awake()
     {
+        mode = StartMenu.mode;
+        circle = Resources.Load<Sprite>(oSprite);
+
         player1Turn = true;
         lastAmountWon = 0;
         gameOverBool = false;
-        //changed for debugging firstTurn = true;
-      
-        buttons= GameObject.FindGameObjectsWithTag("Button");
+
+
+        buttons = GameObject.FindGameObjectsWithTag("Button");
         areas = GameObject.FindGameObjectsWithTag("Area"); 
 
     }
@@ -180,8 +184,8 @@ public class Turn : MonoBehaviour
         //no use checking for a winner if the mini board is already won
         if (!btn.transform.parent.GetComponent<areaProperties>().areaWon)
         {
-            string symbol = "Xbasic";
-            if (SceneManagerr.Instance.player.circles) symbol = "Obasic";
+            string symbol = click.xSprite;
+            if (SceneManagerr.Instance.player.circles) symbol = oSprite;
             //check rows for winner
             for (int i = 0; i < 9; i = i + 3)
             {
@@ -218,14 +222,15 @@ public class Turn : MonoBehaviour
 
     private void checkBigWinner(buttonProperties btn)
     {
+
         //check if a new board has been won, no use checking for a winner if the board hasn't changed
         //and check if at least 3 mini boards are won because you need at least 3 to win
         if(lastAmountWon != areaProperties.amountWon && areaProperties.amountWon >= 3)
         {
             lastAmountWon = areaProperties.amountWon;
 
-            string symbol = "Xbasic";
-            if (SceneManagerr.Instance.player.circles) symbol = "Obasic";
+            string symbol = click.xSprite;
+            if (SceneManagerr.Instance.player.circles) symbol = oSprite;
             GameObject buttons = GameObject.Find("Buttons");
             //check rows for winner
             for(int i = 0; i < 9; i = i + 3)
@@ -274,7 +279,16 @@ public class Turn : MonoBehaviour
         SpriteRenderer winnerIcon = GameObject.Find("Winner Icon").GetComponent<SpriteRenderer>();
         winnerIcon.sprite = Resources.Load<Sprite>(symbol);
         winnerIcon.enabled = true;
-        Money money =gameObject.GetComponent<Money>();
-        money.GetMoney();
+
+        if (symbol == click.xSprite)
+        {
+
+            Money money = gameObject.GetComponent<Money>();
+            money.GetMoney();
+            WinPanel.SetActive(true);
+
+        }
+        else LosePanel.SetActive(true);
+        
     }
 }

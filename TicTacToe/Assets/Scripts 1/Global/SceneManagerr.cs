@@ -7,7 +7,6 @@ public class SceneManagerr : MonoBehaviour
     // to access throughout your scene
     public Player player;
     public Turn turn;
- 
     public static SceneManagerr Instance { get; private set; } // static singleton
     private void Awake()
     {
